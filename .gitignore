@@ -1,0 +1,11 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+.streamlit/secrets.toml
+*.db
+*.json
+venv/
+.venv/
+devscan_ratelimit.json
+devscan_analytics.json

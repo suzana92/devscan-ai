@@ -1,0 +1,8 @@
+.env
+*.db
+*.json
+venv/
+__pycache__/
+.git/
+devscan_analytics.json
+devscan_ratelimit.json

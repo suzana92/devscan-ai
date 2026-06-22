@@ -1,21 +1,12 @@
 #!/bin/bash
 echo "================================"
-echo "   DevScan AI - First Time Setup"
+echo "   DevScan AI Setup"
 echo "================================"
 echo ""
-echo "Step 1: Starting containers..."
-docker compose up -d
+echo "Step 1: Pulling AI model (5GB - first time only)..."
+ollama pull qwen2.5-coder:7b
 echo ""
-echo "Step 2: Waiting for Ollama..."
-sleep 45
-echo ""
-echo "Step 3: Downloading AI model (9GB)..."
-docker exec devscan-ollama ollama pull qwen2.5-coder:14b
-echo ""
-echo "Step 4: Restarting app..."
-docker compose restart devscan
-echo ""
-echo "================================"
-echo "DevScan AI is ready!"
-echo "Open: http://localhost:8501"
-echo "================================"
+echo "Step 2: Starting DevScan AI..."
+ollama serve &
+sleep 3
+streamlit run app.py

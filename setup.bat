@@ -1,23 +1,22 @@
 @echo off
 echo ================================
-echo    DevScan AI - First Time Setup
+echo    DevScan AI Setup
 echo ================================
 echo.
-echo Step 1: Starting containers...
-docker compose up -d
+echo Step 1: Checking Ollama...
+ollama list >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Ollama not found. Please install from ollama.com
+    pause
+    exit
+)
+echo Ollama found.
 echo.
-echo Step 2: Waiting for Ollama to start...
-timeout /t 45 /nobreak > nul
+echo Step 2: Pulling AI model (5GB - first time only)...
+ollama pull qwen2.5-coder:7b
 echo.
-echo Step 3: Downloading AI model (9GB, one time only)...
-echo This takes 10-15 minutes depending on your internet.
-docker exec devscan-ollama ollama pull qwen2.5-coder:14b
-echo.
-echo Step 4: Restarting app with model loaded...
-docker compose restart devscan
-echo.
-echo ================================
-echo DevScan AI is ready!
-echo Open: http://localhost:8501
-echo ================================
-pause
+echo Step 3: Starting DevScan AI...
+start /B ollama serve
+timeout /t 3 /nobreak > nul
+start http://localhost:8501
+streamlit run app.py

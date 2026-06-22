@@ -1,0 +1,36 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: devscan-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0:11434
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+
+  devscan:
+    build: .
+    container_name: devscan-app
+    ports:
+      - "8501:8501"
+    environment:
+      - OLLAMA_URL=http://devscan-ollama:11434
+      - OLLAMA_MODEL=qwen2.5-coder:14b
+      - OLLAMA_TAGS_TIMEOUT=30
+      - OLLAMA_GEN_TIMEOUT=300
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

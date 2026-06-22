@@ -16,16 +16,10 @@
 
 <div align="center">
 
-![DevScan AI - Security Analysis](screenshot2.png)
-
-![DevScan AI - AI Review](screenshot3.png)
+![DevScan AI](screenshot2.png)
+![DevScan AI](screenshot3.png)
 
 </div>
-
----
-
-> **"Found real bugs in our production codebase in the first scan.
-> The AI-risk detection alone saved hours of debugging."**
 
 ---
 
@@ -86,16 +80,15 @@ Zero trust required.
 | qwen2.5-coder:14b | 10GB free | 9GB | 3-5 min/file | 10-20 sec/file | Excellent |
 
 Run whichever your machine supports.
-14b gives deeper analysis on complex code.
-7b is faster and works well for most use cases.
+Default is 7b — works well on most machines.
+Switch to 14b for deeper analysis if your machine supports it.
 
-To switch models open the `.env` file and change:
-
+To switch — open `.env` file and change:
 ```env
-# For 7b (faster, less RAM)
 OLLAMA_MODEL=qwen2.5-coder:7b
-
-# For 14b (deeper analysis, more RAM)
+```
+or
+```env
 OLLAMA_MODEL=qwen2.5-coder:14b
 ```
 
@@ -112,82 +105,66 @@ OLLAMA_MODEL=qwen2.5-coder:14b
 
 ---
 
-## Quick Start
+## Quick Start — Easiest Way
 
-> 💡 First time? The AI model downloads automatically.
-> 7b takes ~5 minutes. 14b takes ~15 minutes. Only happens once.
+> 💡 This works on Windows, Mac, and Linux.
+> No Docker needed.
 
----
+**Step 1 — Install Ollama:**
 
-### Option A — Docker (Recommended)
+Download and install from [ollama.com](https://ollama.com)
 
-**Step 1** — Install Docker Desktop from [docker.com](https://docker.com/products/docker-desktop)
-
-**Step 2** — Install Ollama from [ollama.com](https://ollama.com)
-
-**Step 3** — Clone and run:
-
-**Windows:**
+**Step 2 — Clone DevScan AI:**
 ```bash
 git clone https://github.com/suzana92/devscan-ai.git
 cd devscan-ai
-ollama pull qwen2.5-coder:7b
-```
-Double click `setup.bat`
-
-**Mac:**
-```bash
-git clone https://github.com/suzana92/devscan-ai.git
-cd devscan-ai
-ollama pull qwen2.5-coder:7b
-chmod +x setup.sh
-./setup.sh
 ```
 
-**Linux:**
+**Step 3 — Install requirements:**
 ```bash
-git clone https://github.com/suzana92/devscan-ai.git
-cd devscan-ai
-curl -fsSL https://ollama.com/install.sh | sh
-ollama pull qwen2.5-coder:7b
-chmod +x setup.sh
-./setup.sh
-```
-
-**Step 4** — Open browser: **http://localhost:8501**
-
----
-
-### Option B — Direct Run (No Docker)
-
-Install Ollama from [ollama.com](https://ollama.com) then:
-
-```bash
-git clone https://github.com/suzana92/devscan-ai.git
-cd devscan-ai
 pip install -r requirements.txt
-ollama pull qwen2.5-coder:7b
-ollama serve
-streamlit run app.py
 ```
 
-Open browser: **http://localhost:8501**
+**Step 4 — Run DevScan:**
+
+Windows — double click `setup.bat`
+
+Mac and Linux:
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
+**Step 5 — Open browser:**
+http://localhost:8501
+
+> First run downloads the AI model (5GB for 7b).
+> Takes 5-10 minutes once. Never again after that.
 
 ---
 
 ## Running Every Time After Setup
 
-**Docker:**
-```bash
-docker compose up -d
-```
-Open **http://localhost:8501**
+Windows — double click `setup.bat`
 
-**Direct:**
+Mac and Linux:
 ```bash
 ollama serve
 streamlit run app.py
 ```
+
+Open **http://localhost:8501**
+
+---
+
+## Docker Option
+
+Prefer Docker? Make sure Ollama is installed and running, then:
+
+```bash
+docker compose up
+```
+
 Open **http://localhost:8501**
 
 ---
@@ -221,27 +198,29 @@ When Gemini is off — zero external connections. Ever.
 ## Project Structure
 devscan-ai/
 
-├── app.py              — Main interface
+├── app.py                    — Main interface
 
-├── ai_reviewer.py      — Local AI engine (Ollama)
+├── ai_reviewer.py            — Local AI engine (Ollama)
 
-├── sast_scanner.py     — Security scanner (Bandit)
+├── sast_scanner.py           — Security scanner (Bandit)
 
-├── github_reader.py    — GitHub repository reader
+├── github_reader.py          — GitHub repository reader
 
-├── compliance.py       — Coding standards checker
+├── compliance.py             — Coding standards checker
 
-├── analytics.py        — ROI dashboard
+├── analytics.py              — ROI dashboard
 
-├── security.py         — Rate limiting and sanitization
+├── security.py               — Rate limiting and sanitization
 
-├── docker-compose.yml  — Docker deployment
+├── docker-compose.yml        — Docker for personal use
 
-├── setup.bat           — Windows one-click setup
+├── docker-compose.server.yml — Docker for team servers
 
-├── setup.sh            — Mac and Linux one-click setup
+├── setup.bat                 — Windows one-click start
 
-└── dockerfile          — App container
+├── setup.sh                  — Mac and Linux one-click start
+
+└── dockerfile                — App container
 
 ---
 
@@ -259,12 +238,11 @@ devscan-ai/
 ## For Development Teams
 
 DevScan AI deploys on your team's own server.
-Every developer on your team accesses it
-through their browser at your internal URL.
+Every developer accesses it through their browser.
 Your code never leaves your building.
 
 📧 Contact for team and enterprise licensing:
-**suzanaabdulsalam@gmail.com**
+**suzanasehanaz@gmail.com**
 
 ---
 
@@ -273,8 +251,7 @@ Your code never leaves your building.
 If DevScan found a real bug in your codebase —
 please ⭐ **star this repository**.
 
-It helps other developers find this tool
-and keeps the project growing.
+It helps other developers find this tool.
 
 ---
 
